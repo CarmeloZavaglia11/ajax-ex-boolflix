@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js" integrity="sha512-zT3zHcFYbQwjHdKjCu6OMmETx8fJA9S7E6W7kBeFxultf75OPTYUJigEKX58qgyQMi1m1EgenfjMXlRZG8BXaw==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="top-bar">
+    <h1>BOOLFLIX</h1>
+    <div class="search">
+      <input type="search" name="" id="">
+      <button type="button">CERCA</button>
+    </div>
+  </div>
+
+  <div class="films">
+
+  </div>
+
+    <script id="film-template" type="text/x-handlebars-template">
+        <div class="film">
+          <h3>Titolo: {{title}}</h3>
+          <h3>Titolo-originale: {{originalTitle}}</h3>
+          <h4>Lingua:{{lang}} - Voto:{{vote}}</h4>
+        </div>
+      </script>
+      
+
+    <script src="js/script.js"></script>
+</body>
+</html>
