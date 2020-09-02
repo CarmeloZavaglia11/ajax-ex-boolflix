@@ -6,6 +6,12 @@
 
 $(document).ready(function(){
 
+    setTimeout(() => {
+        
+        $('.preload').addClass('disappear');
+
+    }, 3000);
+
     $('.search button').click(function(){
 
         printFilm();
@@ -26,11 +32,13 @@ $(document).ready(function(){
 
 function printFilm() {
 
-        $('.films').addClass('active');
-
         $('.films').empty();
 
         var search = $('.search input').val();
+
+        if (search == '') {
+            return;
+        }
 
         $.ajax(
             {
@@ -39,7 +47,7 @@ function printFilm() {
                 data: {
                     api_key: 'f447f45b0ef7c54bc18b8de515517b72',
                     query: search,
-                    language: 'it-IT'
+                    language: 'it-IT',
                 },
                 success: function(data) {
                     console.log(data);
@@ -70,4 +78,6 @@ function printFilm() {
                 }
             }
         );
+
+        $('.search input').val(' ');
 }
