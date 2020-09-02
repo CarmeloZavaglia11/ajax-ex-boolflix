@@ -6,15 +6,25 @@
 
 $(document).ready(function(){
 
-    printFilm();
+    $('.search button').click(function(){
+
+        printFilm();
+
+    });
+
+    $(document).keydown(function(event){
+
+        if (event.keyCode == 13 || event.which == 13) {
+            printFilm();
+        }
+        
+    })
 
 });
 
 // FUNZIONI
 
 function printFilm() {
-
-    $('.search button').click(function(){
 
         $('.films').addClass('active');
 
@@ -60,6 +70,4 @@ function printFilm() {
                 }
             }
         );
-
-    });
 }
