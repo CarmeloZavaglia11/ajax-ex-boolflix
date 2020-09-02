@@ -10,7 +10,7 @@ $(document).ready(function(){
         
         $('.preload').addClass('disappear');
 
-    }, 3000);
+    }, 2000);
 
     $('.search button').click(function(){
 
