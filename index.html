@@ -39,6 +39,8 @@
 
   </div>
 
+    <!-- CARD -->
+
     <script id="template" type="text/x-handlebars-template">
         <div class="film">
           <div class="desc">
@@ -50,6 +52,14 @@
             <span>Voto: {{{vote}}}</span>   
           </div>
           <img src="{{image}}" id="bgc-img" alt="{{title}}">
+        </div>
+      </script>
+
+      <!-- ERRORE -->
+
+      <script id="error-template" type="text/x-handlebars-template">
+        <div class="error">
+          <h2>Nessun risultato per la ricerca effettuata: "{{ricerca}}"</h2>
         </div>
       </script>
       

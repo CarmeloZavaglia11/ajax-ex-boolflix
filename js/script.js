@@ -23,13 +23,19 @@ $(document).ready(function(){
 
     }, 2000);
 
-    $('.search button').click(function(){
+    $('.search input').keyup(function(){
 
         resetCont();
         printing('movie');
         printing('tv');
 
     });
+
+    $('.search button').on('focus', function() {
+
+        $(".search input").animate({bottom: '0px'});
+
+    })
 
     $(document).keydown(function(event){
 
@@ -83,8 +89,8 @@ function ajax(resp,type) {
     var search = $('.search input').val();
 
     if (resp.total_results == 0) {
-        $('.cont').html('<h2>' + 'Nessun risultato per la ricerca:"' + search + '"' + '</h2>');
-        return;
+        $('.cont').append('<h2>' + 'Nessun risultato per la ricerca:"' + search + '" in (' + type + ')' + '</h2>');
+        return
     }
 
     var respRes = resp.results;
