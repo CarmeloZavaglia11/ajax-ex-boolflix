@@ -15,6 +15,8 @@
 
 $(document).ready(function(){
 
+    resetInput();
+
     setTimeout(() => {
         
         $('.preload').addClass('disappear');
@@ -24,8 +26,8 @@ $(document).ready(function(){
     $('.search button').click(function(){
 
         resetCont();
-        printFilm();
-        printTv();
+        printing('movie');
+        printing('tv');
 
     });
 
@@ -34,8 +36,8 @@ $(document).ready(function(){
         if (event.keyCode == 13 || event.which == 13) {
 
             resetCont();
-            printFilm();
-            printTv();
+            printing('movie');
+            printing('tv');
 
         }
         
@@ -45,7 +47,7 @@ $(document).ready(function(){
 
 // FUNZIONI
 
-function printFilm() {
+function printing(objs) {
 
     var search = $('.search input').val();
 
@@ -55,7 +57,7 @@ function printFilm() {
 
     $.ajax(
         {
-            url: 'https://api.themoviedb.org/3/search/movie',
+            url: 'https://api.themoviedb.org/3/search/' + objs,
             method: 'GET',
             data: {
                 api_key: 'f447f45b0ef7c54bc18b8de515517b72',
@@ -63,7 +65,12 @@ function printFilm() {
                 language: 'it-IT',
             },
             success: function(data) {
-                ajaxFilm(data);
+                if (objs == 'movie') {
+                    ajax(data,'movie');
+                }  else if (objs == 'tv') {
+                    ajax(data,'tv');
+                }
+                
             },
             error: function(){
                 alert('errore');
@@ -72,86 +79,42 @@ function printFilm() {
     );
 }
 
-function printTv() {
-
+function ajax(resp,type) {
     var search = $('.search input').val();
 
-    if (search == '') {
+    if (resp.total_results == 0) {
+        $('.cont').html('<h2>' + 'Nessun risultato per la ricerca:"' + search + '"' + '</h2>');
         return;
     }
 
-    $.ajax(
-        {
-            url: 'https://api.themoviedb.org/3/search/tv',
-            method: 'GET',
-            data: {
-                api_key: 'f447f45b0ef7c54bc18b8de515517b72',
-                query: search,
-                language: 'it-IT',
-            },
-            success: function(data) {
-                ajaxTv(data);
-            },
-            error: function(){
-                alert('errore');
-            }
+    var respRes = resp.results;
+    var source = $('#template').html();
+    var template = Handlebars.compile(source);
+
+    for (let i = 0; i < respRes.length; i++) {
+
+        var title = '';
+        var originTitle = '';
+
+        if (type == 'movie') {
+            title = respRes[i].title;
+            originTitle = respRes[i].original_title;
+        }  else if (type == 'tv') {
+            title = respRes[i].name;
+            originTitle = respRes[i].original_name;
         }
-    );
-}
-
-function ajaxFilm(resp) {
-    var search = $('.search input').val();
-
-    if (resp.total_results == 0) {
-        $('.cont').html('<h2>' + 'Nessun Risultato per la ricerca:"' + search + '"' + '</h2>');
-        return;
-    }
-
-    var films = resp.results
-    var source = $('#template').html();
-    var template = Handlebars.compile(source);
-
-    for (let i = 0; i < films.length; i++) {
         
         var context = { 
-            title: films[i].title, 
-            originalTitle: films[i].original_title,
-            lang: addFlag(films[i].original_language),
-            vote:  addStar(films[i].vote_average)
+            image: addImage(respRes[i].poster_path),
+            title: title, 
+            originalTitle: originTitle,
+            lang: addFlag(respRes[i].original_language),
+            vote:  addStar(respRes[i].vote_average)
         };
         var html = template(context);
 
         $('.cont').append(html);
 
-        resetInput();
-    }
-}
-
-function ajaxTv(resp) {
-    var search = $('.search input').val();
-
-    if (resp.total_results == 0) {
-        $('.cont').html('<h2>' + 'Nessun Risultato per la ricerca:"' + search + '"' + '</h2>');
-        return;
-    }
-
-    var tvs = resp.results
-    var source = $('#template').html();
-    var template = Handlebars.compile(source);
-
-    for (let i = 0; i < tvs.length; i++) {
-        
-        var context = { 
-            title: tvs[i].name, 
-            originalTitle: tvs[i].original_name,
-            lang: addFlag(tvs[i].original_language),
-            vote:  addStar(tvs[i].vote_average)
-        };
-        var html = template(context);
-
-        $('.cont').append(html);
-
-        resetInput();
     }
 }
 
@@ -194,4 +157,13 @@ function addFlag(iso) {
         return iso;
     }
     
+}
+
+function addImage(imageUrl) {
+
+    if (imageUrl != null) {
+        return 'https://image.tmdb.org/t/p/w342' + imageUrl;
+    }  else {
+        return 'https://moorestown-mall.com/noimage.gif'
+    }
 }

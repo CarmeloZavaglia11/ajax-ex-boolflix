@@ -76,6 +76,7 @@ body {
 
 .cont {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     overflow-y: scroll;
     width: 100%;
@@ -93,17 +94,19 @@ body {
 }
 
 .film {
+    position: relative;
     text-align: center;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     color: white;
-    width: 280px;
+    width: 297px;
     height: 400px;
     margin: 10px;
     border-radius: 10px;
-    background-color: black;
+    cursor: pointer;
 }
 
 .film h4 {
@@ -116,6 +119,32 @@ body {
     height: 30px;
 }
 
+#bgc-img {
+    position: absolute;
+    top: 0;
+    width: 297px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.desc {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    transition: 1s ease-in-out;
+}
+
+.film:hover .desc {
+    background-color: rgba(0,0,0,0.8);
+    opacity: 1;
+    z-index: 2;  
+}
 .preload {
     position: absolute;
     background-color: #000;

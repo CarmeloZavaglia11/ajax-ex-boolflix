@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoolFlix</title>
+    <!-- ICONA -->
     <link rel="icon" type="image/png" href="https://legeekducerisier.fr/wp-content/uploads/logo-netflix.png"/>
+    <!-- JQUERY -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- HANDLEBARS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js" integrity="sha512-zT3zHcFYbQwjHdKjCu6OMmETx8fJA9S7E6W7kBeFxultf75OPTYUJigEKX58qgyQMi1m1EgenfjMXlRZG8BXaw==" crossorigin="anonymous"></script>
+    <!-- FONTAWESOME -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
+    <!-- FONT -->
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet"> 
+    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -35,10 +41,37 @@
 
     <script id="template" type="text/x-handlebars-template">
         <div class="film">
-          <h3>Titolo: {{title}}</h3>
-          <h3>Titolo-originale: {{originalTitle}}</h3>
-          <h4>Lingua:{{{lang}}}</h4>
-          <h4>Voto:{{{vote}}}</h4>
+          <div class="desc">
+            <h3>Titolo:</strong> {{title}}</h3>
+            <h3>Titolo-Originale:</strong> {{originalTitle}}</h3>
+            <h4>Lingua:</strong>{{{lang}}}</h4>
+            <h4>Voto:</strong>{{{vote}}}</h4>   
+          </div>
+          <img src="{{image}}" id="bgc-img" alt="{{title}}">
+        </div>
+      </script>
+
+      <script id="home-film" type="text/x-handlebars-template">
+        <div class="film">
+          <div class="desc">
+            <h3>Titolo:</strong> {{title}}</h3>
+            <h3>Titolo-Originale:</strong> {{originalTitle}}</h3>
+            <h4>Lingua:</strong>{{{lang}}}</h4>
+            <h4>Voto:</strong>{{{vote}}}</h4>   
+          </div>
+          <img src="{{image}}" id="bgc-img" alt="{{title}}">
+        </div>
+      </script>
+
+      <script id="home-tv" type="text/x-handlebars-template">
+        <div class="film">
+          <div class="desc">
+            <h3>Titolo:</strong> {{title}}</h3>
+            <h3>Titolo-Originale:</strong> {{originalTitle}}</h3>
+            <h4>Lingua:</strong>{{{lang}}}</h4>
+            <h4>Voto:</strong>{{{vote}}}</h4>   
+          </div>
+          <img src="{{image}}" id="bgc-img" alt="{{title}}">
         </div>
       </script>
       
