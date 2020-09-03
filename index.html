@@ -42,10 +42,12 @@
     <script id="template" type="text/x-handlebars-template">
         <div class="film">
           <div class="desc">
-            <h3>Titolo:</strong> {{title}}</h3>
-            <h3>Titolo-Originale:</strong> {{originalTitle}}</h3>
-            <h4>Lingua:</strong>{{{lang}}}</h4>
-            <h4>Voto:</strong>{{{vote}}}</h4>   
+            <h3>Titolo:</h3>
+            <h4>{{title}}</h4>
+            <h3>Titolo-Originale:</h3>
+            <h4>{{originalTitle}}</h4>
+            <span>Lingua: {{{lang}}}</span>
+            <span>Voto: {{{vote}}}</span>   
           </div>
           <img src="{{image}}" id="bgc-img" alt="{{title}}">
         </div>

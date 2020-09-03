@@ -109,16 +109,6 @@ body {
     cursor: pointer;
 }
 
-.film h4 {
-    display: flex;
-    align-items: center;
-}
-
-.film h4 img {
-    width: 30px;
-    height: 30px;
-}
-
 #bgc-img {
     position: absolute;
     top: 0;
@@ -140,8 +130,20 @@ body {
     transition: 1s ease-in-out;
 }
 
+
+.desc span {
+    display: flex;
+    align-items: center;
+}
+
+.desc span img {
+    width: 30px;
+    height: 30px;
+}
+
+
 .film:hover .desc {
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.9);
     opacity: 1;
     z-index: 2;  
 }
