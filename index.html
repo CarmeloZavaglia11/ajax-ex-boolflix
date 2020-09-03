@@ -24,20 +24,21 @@
     </div>
 
     <div class="search">
-      <input type="search" placeholder="Cerca un film">
+      <input type="search" placeholder="Cerca un film..">
       <button type="button"><i class="fas fa-search" id="search"></i></button>
     </div>
   </div>
 
-  <div class="films">
+  <div class="cont">
 
   </div>
 
-    <script id="film-template" type="text/x-handlebars-template">
+    <script id="template" type="text/x-handlebars-template">
         <div class="film">
           <h3>Titolo: {{title}}</h3>
           <h3>Titolo-originale: {{originalTitle}}</h3>
-          <h4>Lingua:{{lang}} - Voto:{{vote}}</h4>
+          <h4>Lingua:{{{lang}}}</h4>
+          <h4>Voto:{{{vote}}}</h4>
         </div>
       </script>
       

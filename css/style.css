@@ -74,19 +74,20 @@ body {
     color: white;
 }
 
-.films {
+.cont {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
     overflow-y: scroll;
     width: 100%;
     height: calc(100vh - 75px);
     margin:  0 auto;
-    padding: 10px;
+    padding: 10px 0;
     background-color: #161616;
 }
 
-.films h2 {
+.cont h2 {
+    width: 100%;
+    text-align: center;
     color: white;
     font-size: 40px;
 }
@@ -98,11 +99,21 @@ body {
     justify-content: space-evenly;
     align-items: center;
     color: white;
-    width: 300px;
+    width: 280px;
     height: 400px;
     margin: 10px;
     border-radius: 10px;
     background-color: black;
+}
+
+.film h4 {
+    display: flex;
+    align-items: center;
+}
+
+.film h4 img {
+    width: 30px;
+    height: 30px;
 }
 
 .preload {
@@ -120,4 +131,8 @@ body {
 .disappear {
     pointer-events: none;
     opacity: 0;
+}
+
+.yellow {
+    color: gold;
 }
