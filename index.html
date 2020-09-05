@@ -35,34 +35,81 @@
     </div>
   </div>
 
-  <div class="cont">
+  <div class="main">
+    <div class="aside">
+      <ul>
 
+      </ul>
+    </div>
+    <div class="cont">
+
+    </div>
   </div>
+
+
+
+  
 
     <!-- CARD -->
 
-    <script id="template" type="text/x-handlebars-template">
-        <div class="film">
-          <div class="desc">
-            <h3>Titolo:</h3>
-            <h4>{{title}}</h4>
-            <h3>Titolo-Originale:</h3>
-            <h4>{{originalTitle}}</h4>
-            <span>Lingua: {{{lang}}}</span>
-            <span>Voto: {{{vote}}}</span>   
-          </div>
-          <img src="{{image}}" id="bgc-img" alt="{{title}}">
-        </div>
-      </script>
+  <script id="template" type="text/x-handlebars-template">
+    <div data-id-film="{{id}}" class="film">
+      <div class="desc">
+        <h3>Titolo:</h3>
+        <h4 class='titolo'>{{title}}</h4>
+        <h3>Titolo-Originale:</h3>
+        <h4 class='titolo_originale'>{{originalTitle}}</h4>
+        <h3>Tipo:</h3>
+        <h4 class='tipo'>{{type}}</h4>
+        <span class='lingua'>Lingua: {{{lang}}}</span>
+        <span class='voto'>Voto: {{{vote}}}</span>
+        <h3>Trama:</h3> 
+        <p class='overview'>{{overview}}</p>  
+        <i class="fas fa-info-circle i"></i>clicks for more information
+      </div>
+      <img src="{{image}}" class="bgc-img" alt="{{title}}">
+    </div>
+  </script>
 
-      <!-- ERRORE -->
+  <!-- ASIDE -->
 
-      <script id="error-template" type="text/x-handlebars-template">
-        <div class="error">
-          <h2>Nessun risultato per la ricerca effettuata: "{{ricerca}}"</h2>
-        </div>
-      </script>
+  <script id="aside-template" type="text/x-handlebars-template">
+   <li data-id-genres="{{id}}">{{genres}}</li>
+  </script>
+
+  <!-- INFORMATION -->
+  <div class="fake-background">
+    
+  </div>
+  <div class="info">
+    <div class="x"><i class="far fa-times-circle"></i></div>
+    <div class="img-info">
+
+    </div>
+    <h3>Titolo:</h3>
+    <h4 class="titolo-info"></h4>
+    <h3>Tipo:</h3>
+    <h4 class="tipo-info"></h4>
+    <span class="lingua-info">Lingua:</span>
+    <span class="voto-info">Voto:</span>
+    <h3>Trama:</h3> 
+    <p class="overview-info"></p>
+    <div class="actors">
+      <div class="actor">
+        <img src="" alt="">
+        <h4></h4>
+      </div>      
+      <div class="actor">
+        <img src="" alt="">
+        <h4></h4>
+      </div>
+    </div>
+  </div>
+
+  <audio id='intro' src="https://downloadwap.com/content2/mp3-ringtones/tone/2020/sound-fx/netflixintr_90f773fb5136184.mp3"></audio>
+
+
       
-    <script src="js/script.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>

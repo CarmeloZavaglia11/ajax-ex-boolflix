@@ -15,19 +15,102 @@
 
 $(document).ready(function(){
 
-    resetInput();
+    // INTRO
+
+    $('#intro')[0].play();
 
     setTimeout(() => {
-        
+
         $('.preload').addClass('disappear');
 
-    }, 2000);
+    }, 1500);
 
-    $('.search input').keyup(function(){
+    // FILM e SERIE TV INIZIALI
+
+    resetInput();
+
+    var url1 = 'https://api.themoviedb.org/3/search/movie';
+
+    var url2 = 'https://api.themoviedb.org/3/search/tv';
+
+    var search = 'a';
+
+    printing(url1,'movie',search);
+    printing(url2,'tv',search);
+
+    // ASIDE GENERATION 
+
+    asideGeneration('https://api.themoviedb.org/3/genre/tv/list');
+
+    // CLICK LOGO
+
+    $('.logo img').click(function(){
+
+        var url1 = 'https://api.themoviedb.org/3/search/movie';
+
+        var search = 'a';
 
         resetCont();
-        printing('movie');
-        printing('tv');
+
+        printing(url1,'movie',search);
+    }),
+
+    // RICERCHE
+
+    $('.search button').click(function(){
+
+        $('.aside ul li').removeClass('genre-active');
+
+        var search = $('.search input').val();
+
+        if (search == '') {
+            return;
+        }
+
+        var url1 = 'https://api.themoviedb.org/3/search/movie';
+        var url2 = 'https://api.themoviedb.org/3/search/tv';
+
+        resetCont();
+        printing(url1,'movie',search);
+        printing(url2,'tv',search);
+
+    });
+
+    $(document).keydown(function(event){
+
+        $('.aside ul li').removeClass('genre-active');
+
+        if(event.which == 13 || event.keycode == 13) {
+            var search = $('.search input').val();
+
+            if (search == '') {
+                return;
+            }
+
+            var url1 = 'https://api.themoviedb.org/3/search/movie';
+            var url2 = 'https://api.themoviedb.org/3/search/tv';
+
+            resetCont();
+            printing(url1,'movie',search);
+            printing(url2,'tv',search);
+        }
+
+    });
+
+    $('.search input').click(function(){
+
+        var search = $('.search input').val();
+
+        if (search == '') {
+            return;
+        }
+
+        var url1 = 'https://api.themoviedb.org/3/search/movie';
+        var url2 = 'https://api.themoviedb.org/3/search/tv';
+
+        resetCont();
+        printing(url1,'movie',search);
+        printing(url2,'tv',search);
 
     });
 
@@ -35,48 +118,102 @@ $(document).ready(function(){
 
         $(".search input").animate({bottom: '0px'});
 
-    })
+    });
+    
+});
 
-    $(document).keydown(function(event){
 
-        if (event.keyCode == 13 || event.which == 13) {
 
-            resetCont();
-            printing('movie');
-            printing('tv');
+// MATCH GENRES
 
-        }
-        
-    })
+$(document).on('click','.aside ul li',function(){
+
+    var query = $('.search input').val();
+
+    $('.aside ul li').removeClass('genre-active');
+
+    $(this).addClass('genre-active');
+
+    var thisId = $(this).data('id-genres');
+
+    var url1 = 'https://api.themoviedb.org/3/search/movie';
+
+    resetCont();
+
+    printing(url1,'genres',query,thisId);
+
+
+});
+
+// CLICK FOR INFORMATION
+
+$(document).on('click','.film',function(){
+
+    var poster = $(this).children('img').clone();
+    var format = $(this).find('.tipo').text();
+    var title = $(this).find('.titolo').text();
+    var language = $(this).find('.lingua').html();
+    var average = $(this).find('.voto').html();
+    var summary = $(this).find('.overview').text();
+
+    
+    $('.img-info').html(poster);
+    $('.tipo-info').text(format);
+    $('.titolo-info').text(title);
+    $('.lingua-info').html(language);
+    $('.voto-info').html(average);
+    $('.overview-info').text(summary);
+
+    $('.fake-background').show();
+    $('.info').addClass('info-active');
+
+
+
+});
+
+// CLICK FAKE SCREEN
+
+$('.fake-background').click(function(){
+
+    $('.info').removeClass('info-active');
+    $('.fake-background').hide();
+
+})
+
+// CLICK X FAKE SCREEN
+
+$('.info .x i').click(function(){
+
+    $('.info').removeClass('info-active');
+    $('.fake-background').hide(); 
 
 });
 
 // FUNZIONI
 
-function printing(objs) {
+function asideGeneration(url) {
+    
+    var source = $('#aside-template').html();
+    var template = Handlebars.compile(source);
 
-    var search = $('.search input').val();
-
-    if (search == '') {
-        return;
-    }
 
     $.ajax(
         {
-            url: 'https://api.themoviedb.org/3/search/' + objs,
+            url: url,
             method: 'GET',
             data: {
-                api_key: 'f447f45b0ef7c54bc18b8de515517b72',
-                query: search,
-                language: 'it-IT',
+                api_key: 'f447f45b0ef7c54bc18b8de515517b72'
             },
             success: function(data) {
-                if (objs == 'movie') {
-                    ajax(data,'movie');
-                }  else if (objs == 'tv') {
-                    ajax(data,'tv');
+                for (let i = 0; i < data.genres.length; i++) {
+                    var context = { 
+                        genres: data.genres[i].name,
+                        id: data.genres[i].id
+                    };
+                    var html = template(context);
+            
+                    $('.aside ul').append(html);              
                 }
-                
             },
             error: function(){
                 alert('errore');
@@ -85,12 +222,44 @@ function printing(objs) {
     );
 }
 
-function ajax(resp,type) {
-    var search = $('.search input').val();
+function printing(url,objs,search,idGen) {
+
+    if (search == '') {
+        $('.cont').append('<h2>' + 'SCRIVI QUALCOSA PER CERCARE' + '</h2>');
+        return;
+    }
+
+    $.ajax(
+        {
+            url: url,
+            method: 'GET',
+            data: {
+                api_key: 'f447f45b0ef7c54bc18b8de515517b72',
+                query: search,
+                language: 'it-IT',
+            },
+            success: function(data) {
+                if (objs == 'movie') {
+                    ajax(data,'movie',search);
+                }  else if (objs == 'tv') {
+                    ajax(data,'tv',search);
+                }  else if (objs == 'genres') {
+                    filterGenrs(data,idGen,'movie');
+                }
+            },
+            error: function(){
+                alert('errore');
+            }
+        }
+    );
+}
+
+function ajax(resp,type,search) {
 
     if (resp.total_results == 0) {
         $('.cont').append('<h2>' + 'Nessun risultato per la ricerca:"' + search + '" in (' + type + ')' + '</h2>');
-        return
+    }  else {
+        $('.cont').append('<h2> Risultati per: ' + type + '</h2>');
     }
 
     var respRes = resp.results;
@@ -109,8 +278,20 @@ function ajax(resp,type) {
             title = respRes[i].name;
             originTitle = respRes[i].original_name;
         }
+
+        var overview;
+
+        if (respRes[i].overview == '') {
+            overview = 'NO TRAMA';
+        }  else {
+            overview = respRes[i].overview;
+        }
         
-        var context = { 
+        var context = {
+            id: respRes[i].id,
+            genre: respRes[i].genre_ids[0],
+            overview: overview,
+            type: type.toUpperCase(),
             image: addImage(respRes[i].poster_path),
             title: title, 
             originalTitle: originTitle,
@@ -138,15 +319,20 @@ function resetInput() {
 }
 
 function addStar(vote) {
-    var star = '<i class="far fa-star"></i>';
+    var star = '<i class="far fa-star yellow"></i>';
     var fullStar = '<i class="fas fa-star yellow"></i>';
+    var halfStar = '<i class="fas fa-star-half-alt yellow"></i>';
+    var resto = vote % 2;
     var res = '';
-    var arrVote = Math.round(vote / 2);
+    var arrVote = Math.floor(vote / 2);
     for (let i = 0; i < 5; i++) {
         if (arrVote > 0) {
             res += fullStar;
             arrVote -= 1;
-        } else {
+        }  else if (resto != 0){
+            res += halfStar;
+            resto = 0;
+        }  else {
             res += star;
         }  
     }
@@ -159,9 +345,9 @@ function addFlag(iso) {
 
     if (langs.includes(iso)) {
         return '<img src="img/' + iso + '.png">';
-    }  else {
-        return iso;
-    }
+    }  
+
+    return iso;
     
 }
 
@@ -169,7 +355,77 @@ function addImage(imageUrl) {
 
     if (imageUrl != null) {
         return 'https://image.tmdb.org/t/p/w342' + imageUrl;
-    }  else {
-        return 'https://moorestown-mall.com/noimage.gif'
     }
+
+    return 'https://moorestown-mall.com/noimage.gif';
+
+}
+
+function filterGenrs(dataObj,id,type) {
+
+    $.ajax(
+        {
+            url: 'https://api.themoviedb.org/3/genre/'+ type + '/list',
+            method: 'GET',
+            data: {
+                api_key: 'f447f45b0ef7c54bc18b8de515517b72'
+            },
+            success: function(data) {
+                var source = $('#template').html();
+                var template = Handlebars.compile(source);
+
+                var dataObjRes = dataObj.results;
+
+                for (let i = 0; i < dataObjRes.length; i++) {
+                        var genresIdDataObj = dataObjRes[i].genre_ids;
+
+                        if (genresIdDataObj.includes(id)) {
+
+                            // CHECKING
+
+                            var overview;
+
+                            if (dataObjRes[i].overview == '') {
+                                overview = 'NO TRAMA';
+                            }  else {
+                                overview = dataObjRes[i].overview;
+                            }
+
+                            var title = '';
+                            var originTitle = '';
+
+                            if (type == 'movie') {
+                                title = dataObjRes[i].title;
+                                originTitle = dataObjRes[i].original_title;
+                            }  else if (type == 'tv') {
+                                title = dataObjRes[i].name;
+                                originTitle = dataObjRes[i].original_name;
+                            }
+
+                            var context = {
+                                id: dataObjRes[i].id,
+                                genre: dataObjRes[i].genre_ids[0],
+                                overview: overview,
+                                type: type.toUpperCase(),
+                                image: addImage(dataObjRes[i].poster_path),
+                                title: title, 
+                                originalTitle: originTitle,
+                                lang: addFlag(dataObjRes[i].original_language),
+                                vote:  addStar(dataObjRes[i].vote_average)
+                            }
+                            var html = template(context);
+                    
+                            $('.cont').append(html);                        
+                    }
+                    
+                }
+
+                
+            },
+            error: function(){
+                alert('errore');
+            }
+        }
+    );
+
 }
