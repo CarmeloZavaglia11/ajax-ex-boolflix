@@ -464,7 +464,7 @@ function checkNameCast(array , id) {
     if (array.length > 0) {
 		for (let i = 0; i < 3; i++) {
 			if (array[i] != undefined) {
-				$('.film[data-id-film="' + id + '"').find('.desc .actors').append(array[i].name + ',');
+				$('.film[data-id-film="' + id + '"').find('.desc .actors').append(array[i].name + ' ');
 			} else {
 				return;
 			}
