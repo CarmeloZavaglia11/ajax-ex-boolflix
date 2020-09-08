@@ -47,12 +47,15 @@ $(document).ready(function(){
     $('.logo img').click(function(){
 
         var url1 = 'https://api.themoviedb.org/3/search/movie';
+        var url2 = 'https://api.themoviedb.org/3/search/tv';
 
         var search = 'a';
 
         resetCont();
 
         printing(url1,'movie',search);
+        printing(url2,'tv',search);
+        
     }),
 
     // RICERCHE
@@ -80,7 +83,7 @@ $(document).ready(function(){
 
         $('.aside ul li').removeClass('genre-active');
 
-        if(event.which == 13 || event.keycode == 13) {
+        if(event.which == 13 || event.keyCode == 13) {
             var search = $('.search input').val();
 
             if (search == '') {
@@ -155,6 +158,7 @@ $(document).on('click','.film',function(){
     var language = $(this).find('.lingua').html();
     var average = $(this).find('.voto').html();
     var summary = $(this).find('.overview').text();
+    var actors = $(this).find('.actors').text();
 
     
     $('.img-info').html(poster);
@@ -163,6 +167,7 @@ $(document).on('click','.film',function(){
     $('.lingua-info').html(language);
     $('.voto-info').html(average);
     $('.overview-info').text(summary);
+    $('.attori-info').text(actors);
 
     $('.fake-background').show();
     $('.info').addClass('info-active');
@@ -296,11 +301,15 @@ function ajax(resp,type,search) {
             title: title, 
             originalTitle: originTitle,
             lang: addFlag(respRes[i].original_language),
-            vote:  addStar(respRes[i].vote_average)
+            vote:  addStar(respRes[i].vote_average),
         };
+
         var html = template(context);
 
         $('.cont').append(html);
+
+        var id = respRes[i].id;
+        filterActors(id,type);
 
     }
 }
@@ -416,7 +425,7 @@ function filterGenrs(dataObj,id,type) {
                             var html = template(context);
                     
                             $('.cont').append(html);                        
-                    }
+                        }
                     
                 }
 
@@ -428,4 +437,34 @@ function filterGenrs(dataObj,id,type) {
         }
     );
 
+}
+
+function filterActors(id,type) {
+    $.ajax(
+        {
+            url: 'https://api.themoviedb.org/3/'+ type + '/' + id + '/credits',
+            method: 'GET',
+            data: {
+                api_key: 'f447f45b0ef7c54bc18b8de515517b72'
+            },
+            success: function(data) {
+                checkNameCast(data.cast, id);
+            },
+            error: function() {
+                $('.film[data-id-film="' + id + '"').find('.desc .actors').append('Nomi attori non disponibili');
+            }
+        }
+    );
+}
+
+function checkNameCast(array , id) {
+    if (array.length > 0) {
+		for (let i = 0; i < 3; i++) {
+			if (array[i] != undefined) {
+				$('.film[data-id-film="' + id + '"').find('.desc .actors').append(array[i].name + ',');
+			} else {
+				return;
+			}
+		}
+	}
 }
