@@ -424,7 +424,10 @@ function filterGenrs(dataObj,id,type) {
                             }
                             var html = template(context);
                     
-                            $('.cont').append(html);                        
+                            $('.cont').append(html);
+                            
+                            var ids = dataObjRes[i].id;
+                            filterActors(ids,type);
                         }
                     
                 }
