@@ -200,7 +200,7 @@ body {
     transform: scale(1.05);
 }
 
-.desc .actors {
+.desc .actors, .desc .actors-img {
     display: none;
 }
 
@@ -283,6 +283,18 @@ body {
 .info .lingua-info {
     display: flex;
     align-items: center;
+}
+
+.info .attori-img {
+    margin: 30px;
+    width: 50%;
+    height: 20%;
+}
+
+.info .attori-img img {
+    display: inline-block;
+    width: calc(100% / 3);
+    height: 100%;
 }
 
 /* CSS SECONDARY */

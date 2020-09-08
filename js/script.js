@@ -159,6 +159,7 @@ $(document).on('click','.film',function(){
     var average = $(this).find('.voto').html();
     var summary = $(this).find('.overview').text();
     var actors = $(this).find('.actors').text();
+    var imgActors = $(this).find('.actors-img').clone();
 
     
     $('.img-info').html(poster);
@@ -167,7 +168,8 @@ $(document).on('click','.film',function(){
     $('.lingua-info').html(language);
     $('.voto-info').html(average);
     $('.overview-info').text(summary);
-    $('.attori-info').text(actors);
+    $('.attori-info').text('|' + actors + '|');
+    $('.attori-img').html(imgActors);
 
     $('.fake-background').show();
     $('.info').addClass('info-active');
@@ -464,7 +466,8 @@ function checkNameCast(array , id) {
     if (array.length > 0) {
 		for (let i = 0; i < 3; i++) {
 			if (array[i] != undefined) {
-				$('.film[data-id-film="' + id + '"').find('.desc .actors').append(array[i].name + ' ');
+                $('.film[data-id-film="' + id + '"').find('.desc .actors').append(array[i].name + ' ');
+                $('.film[data-id-film="' + id + '"').find('.desc .actors-img').append('<img src= "https://image.tmdb.org/t/p/w342' + array[i].profile_path + '"></img>');
 			} else {
 				return;
 			}
